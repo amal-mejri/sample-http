@@ -22,7 +22,7 @@ stages:
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
-        command: 'Build an image'
+        command: 'build'
         dockerFile: '**/Dockerfile'
         imageName: '$(ImageName)'
         includeLatestTag: true
@@ -34,6 +34,6 @@ stages:
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
-        command: 'Push an image'
+        command: 'push'
         imageName: '$(ImageName)'
       condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
