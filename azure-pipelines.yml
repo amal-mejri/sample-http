@@ -24,8 +24,8 @@ stages:
         dockerRegistryEndpoint: 'Docker Hub'
         command: 'build'
         dockerFile: '**/Dockerfile'
-        buildContext: '.'
         imageName: '$(ImageName)'
+        useDefaultContext: false
         includeLatestTag: true
         buildContext: '.'
      
