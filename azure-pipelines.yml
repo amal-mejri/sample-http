@@ -27,7 +27,6 @@ stages:
         buildContext: '.'
         imageName: '$(ImageName)'
         includeLatestTag: true
-        useDefaultContext: false
         buildContext: '.'
      
     - task: Docker@2
