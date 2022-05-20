@@ -1,4 +1,5 @@
 name : Docker-CI
+
 trigger:
   branches:
     include:
@@ -6,17 +7,27 @@ trigger:
  
 pool:
     name: "cgi-ado-agents-small"
+
+  
  
 variables:
-  ImageName: 'amal-mejri/sample-http:$(Build.BuildId)'
+  ImageName: 'amal-mejri/sample-hhtp:$(Build.BuildId)'
  
 stages:
+
 - stage: Build
   displayName: Build image
   jobs:  
   - job: Build
     displayName: Build and push Docker image
     steps:
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Write your commands here
+          echo "show me"
+          whoami
     - task: Docker@2
       displayName: 'Build the Docker image'
       inputs:
@@ -28,7 +39,7 @@ stages:
         useDefaultContext: false
         includeLatestTag: true
         buildContext: '.'
-     
+
     - task: Docker@2
       displayName: 'Push the Docker image to Dockerhub'
       inputs:
@@ -37,3 +48,14 @@ stages:
         command: 'push'
         imageName: '$(ImageName)'
       condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    - task: DownloadBuildArtifacts@1
+      inputs:
+        buildType: 'current'
+        downloadType: 'specific'
+        downloadPath: '$(System.ArtifactsDirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+    
